@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fieldnotes — Tokyo Civil Engineering Case Studies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Source+Serif+4:ital,opsz@1,8..60&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --concrete:#eae7e0;
+    --concrete-panel:#f4f2ec;
+    --ink:#1c1e1d;
+    --steel:#3c5866;
+    --steel-dim:#7c939c;
+    --signal:#d9531e;
+    --signal-dim:#e8a186;
+    --grey-mid:#8a8477;
+    --line:#c7c2b4;
+    --line-strong:#a39d8c;
+    --white:#fffdf9;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Source Serif 4', serif;
+    --font-mono:'IBM Plex Mono', monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--concrete);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+
+  /* ---------- Reduced motion ---------- */
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important;}
+  }
+
+  /* ---------- Background survey grid ---------- */
+  .grid-bg{
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:64px 64px;
+    background-position:-1px -1px;
+    opacity:0.35;
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* ---------- Header ---------- */
+  header.site{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(234,231,224,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-strong);
+  }
+  .header-inner{
+    max-width:1120px;
+    margin:0 auto;
+    padding:18px 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .brand-mark{
+    width:38px;height:38px;
+    border-radius:50%;
+    border:2px solid var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:var(--font-mono);
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:0.02em;
+    position:relative;
+    flex-shrink:0;
+  }
+  .brand-mark::before{
+    content:'';
+    position:absolute;
+    inset:5px;
+    border:1px solid var(--ink);
+    border-radius:50%;
+  }
+  .brand-text{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:19px;
+    letter-spacing:-0.01em;
+  }
+  .brand-sub{
+    font-family:var(--font-mono);
+    font-size:10.5px;
+    color:var(--grey-mid);
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    margin-top:1px;
+  }
+  nav.site-nav{
+    display:flex;
+    gap:26px;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+  }
+  nav.site-nav a{
+    padding-bottom:3px;
+    border-bottom:2px solid transparent;
+    cursor:pointer;
+    color:var(--steel);
+    transition:border-color .15s ease, color .15s ease;
+  }
+  nav.site-nav a:hover, nav.site-nav a.active{
+    color:var(--signal);
+    border-color:var(--signal);
+  }
+  .nav-toggle{display:none;}
+
+  main{position:relative;z-index:1;min-height:70vh;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+
+  /* ---------- Dimension-line divider ---------- */
+  .dim-rule{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin:44px 0;
+    color:var(--grey-mid);
+  }
+  .dim-rule .cap{width:1px;height:9px;background:var(--line-strong);}
+  .dim-rule .line{flex:1;height:1px;background:var(--line-strong);}
+  .dim-rule .label{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    white-space:nowrap;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:64px 0 30px;
+  }
+  .hero-eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--signal);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .hero-eyebrow::before{
+    content:'';
+    width:8px;height:8px;
+    background:var(--signal);
+    border-radius:50%;
+    display:inline-block;
+  }
+  h1.hero-title{
+    font-family:var(--font-display);
+    font-size:clamp(38px, 6vw, 68px);
+    line-height:0.98;
+    font-weight:700;
+    letter-spacing:-0.02em;
+    margin:0 0 22px;
+    max-width:16ch;
+  }
+  .hero-lede{
+    font-size:19px;
+    color:#3c3e3b;
+    max-width:56ch;
+    margin:0 0 8px;
+  }
+  .hero-meta-row{
+    display:flex;
+    gap:28px;
+    flex-wrap:wrap;
+    margin-top:34px;
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--grey-mid);
+  }
+  .hero-meta-row div{display:flex;flex-direction:column;gap:3px;}
+  .hero-meta-row span.k{letter-spacing:0.08em;text-transform:uppercase;font-size:10.5px;}
+  .hero-meta-row span.v{color:var(--ink);font-size:13px;}
+
+  /* ---------- Section headings ---------- */
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:26px;
+    flex-wrap:wrap;
+  }
+  h2.section-title{
+    font-family:var(--font-display);
+    font-size:26px;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  .section-count{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--grey-mid);
+  }
+
+  /* ---------- Post card grid ---------- */
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(310px, 1fr));
+    gap:22px;
+    margin-bottom:20px;
+  }
+  .card{
+    background:var(--concrete-panel);
+    border:1px solid var(--line-strong);
+    display:flex;
+    flex-direction:column;
+    cursor:pointer;
+    position:relative;
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover{
+    transform:translateY(-3px);
+    border-color:var(--ink);
+    box-shadow:0 10px 24px -14px rgba(28,30,29,0.35);
+  }
+  .card-photo{
+    height:170px;
+    position:relative;
+    overflow:hidden;
+    border-bottom:1px solid var(--line-strong);
+  }
+  .card-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .stamp{
+    position:absolute;
+    top:12px;
+    right:12px;
+    width:52px;height:52px;
+    border-radius:50%;
+    background:rgba(244,242,236,0.94);
+    border:1.5px solid var(--ink);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    font-family:var(--font-mono);
+    line-height:1;
+  }
+  .stamp .code{font-size:13px;font-weight:600;letter-spacing:0.02em;}
+  .stamp .no{font-size:8px;color:var(--grey-mid);margin-top:2px;}
+  .card-body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:10px;flex:1;}
+  .card-tags{
+    display:flex;
+    gap:8px;
+    font-family:var(--font-mono);
+    font-size:10.5px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--steel);
+  }
+  .card-tags .loc::before{content:'⌖ ';}
+  h3.card-title{
+    font-family:var(--font-display);
+    font-size:19px;
+    font-weight:600;
+    line-height:1.25;
+    margin:0;
+  }
+  .card-excerpt{
+    font-size:14.5px;
+    color:#4a4c48;
+    flex:1;
+    margin:0;
+  }
+  .card-foot{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--grey-mid);
+    border-top:1px dashed var(--line-strong);
+    padding-top:10px;
+    margin-top:4px;
+  }
+
+  /* ---------- Filter bar ---------- */
+  .filter-bar{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:30px;
+  }
+  .chip{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    padding:7px 13px;
+    border:1px solid var(--line-strong);
+    background:var(--concrete-panel);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .chip:hover{border-color:var(--ink);}
+  .chip.active{
+    background:var(--ink);
+    color:var(--concrete-panel);
+    border-color:var(--ink);
+  }
+
+  /* ---------- Post page ---------- */
+  .post-header{padding:52px 0 20px;}
+  .back-link{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--steel);
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-bottom:28px;
+    cursor:pointer;
+  }
+  .back-link:hover{color:var(--signal);}
+  .post-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:24px;
+  }
+  .post-tags{
+    display:flex;
+    gap:10px;
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--steel);
+    margin-bottom:16px;
+  }
+  h1.post-title{
+    font-family:var(--font-display);
+    font-size:clamp(32px,4.6vw,50px);
+    line-height:1.05;
+    font-weight:700;
+    letter-spacing:-0.02em;
+    margin:0 0 18px;
+    max-width:20ch;
+  }
+  .post-dek{
+    font-size:18px;
+    color:#3c3e3b;
+    max-width:60ch;
+    margin:0;
+  }
+  .stamp-lg{
+    width:96px;height:96px;
+    border-radius:50%;
+    border:2px solid var(--ink);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    font-family:var(--font-mono);
+    flex-shrink:0;
+    position:relative;
+  }
+  .stamp-lg::before{content:'';position:absolute;inset:6px;border:1px solid var(--line-strong);border-radius:50%;}
+  .stamp-lg .code{font-size:20px;font-weight:600;}
+  .stamp-lg .no{font-size:9px;color:var(--grey-mid);margin-top:3px;}
+
+  .post-meta-strip{
+    display:flex;
+    gap:32px;
+    flex-wrap:wrap;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--grey-mid);
+    border-top:1px solid var(--line-strong);
+    border-bottom:1px solid var(--line-strong);
+    padding:16px 0;
+    margin-top:32px;
+  }
+  .post-meta-strip div{display:flex;flex-direction:column;gap:3px;}
+  .post-meta-strip span.k{letter-spacing:0.08em;text-transform:uppercase;font-size:10px;}
+  .post-meta-strip span.v{color:var(--ink);font-size:13px;}
+
+  .post-hero-photo{
+    margin:36px 0 8px;
+    border:1px solid var(--line-strong);
+  }
+  .post-hero-photo img{width:100%;display:block;height:420px;object-fit:cover;}
+  .fig-caption{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--grey-mid);
+    padding:10px 2px 0;
+  }
+  .fig-caption b{color:var(--ink);}
+
+  .post-body{
+    max-width:70ch;
+    margin:44px 0;
+    font-size:17.5px;
+  }
+  .post-body h2{
+    font-family:var(--font-display);
+    font-size:24px;
+    font-weight:600;
+    margin:44px 0 16px;
+    letter-spacing:-0.01em;
+  }
+  .post-body p{margin:0 0 20px;color:#2a2c2a;}
+  .post-body p:first-of-type::first-letter{
+    font-family:var(--font-display);
+    font-size:3.4em;
+    float:left;
+    line-height:0.85;
+    padding:6px 8px 0 0;
+    font-weight:700;
+    color:var(--signal);
+  }
+
+  .field-note{
+    border:1px dashed var(--line-strong);
+    background:var(--concrete-panel);
+    padding:20px 22px;
+    margin:28px 0;
+    font-family:var(--font-mono);
+    font-size:13.5px;
+    color:#3c3e3b;
+    position:relative;
+  }
+  .field-note::before{
+    content:'FIELD NOTE';
+    position:absolute;
+    top:-9px;
+    left:16px;
+    background:var(--concrete);
+    padding:0 8px;
+    font-size:10px;
+    letter-spacing:0.08em;
+    color:var(--signal);
+  }
+
+  .spec-table{
+    width:100%;
+    border-collapse:collapse;
+    margin:28px 0;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+  }
+  .spec-table caption{
+    text-align:left;
+    font-size:10.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--grey-mid);
+    margin-bottom:8px;
+  }
+  .spec-table td, .spec-table th{
+    text-align:left;
+    padding:9px 12px;
+    border-bottom:1px solid var(--line);
+  }
+  .spec-table th{
+    color:var(--grey-mid);
+    font-weight:500;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    font-size:10.5px;
+  }
+  .spec-table tr:first-child th, .spec-table tr:first-child td{border-top:1px solid var(--line-strong);}
+
+  .gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
+    gap:16px;
+    margin:32px 0;
+  }
+  .gallery figure{margin:0;}
+  .gallery img{width:100%;height:200px;object-fit:cover;display:block;border:1px solid var(--line-strong);}
+  .gallery figcaption{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--grey-mid);
+    margin-top:8px;
+  }
+
+  .pullquote{
+    border-left:3px solid var(--signal);
+    padding:4px 0 4px 22px;
+    margin:32px 0;
+    font-family:var(--font-display);
+    font-size:22px;
+    line-height:1.4;
+    font-weight:500;
+    color:var(--ink);
+  }
+
+  /* ---------- About ---------- */
+  .about-hero{padding:64px 0 8px;}
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:48px;
+    padding:36px 0 80px;
+    align-items:start;
+  }
+  @media (max-width:800px){.about-grid{grid-template-columns:1fr;}}
+  .about-photo{
+    border:1px solid var(--line-strong);
+    aspect-ratio:4/5;
+    overflow:hidden;
+  }
+  .about-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .about-body p{font-size:17px;color:#2a2c2a;margin:0 0 18px;}
+  .about-cred{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--grey-mid);
+    border-top:1px solid var(--line-strong);
+    padding-top:18px;
+    margin-top:24px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px 8px;
+  }
+  .about-cred span.k{display:block;letter-spacing:0.06em;text-transform:uppercase;font-size:10px;margin-bottom:2px;}
+  .about-cred span.v{color:var(--ink);font-size:13px;}
+
+  /* ---------- Archive table ---------- */
+  .archive-list{border-top:1px solid var(--line-strong);}
+  .archive-row{
+    display:grid;
+    grid-template-columns:90px 1fr 140px 110px 90px;
+    gap:16px;
+    align-items:center;
+    padding:16px 4px;
+    border-bottom:1px solid var(--line);
+    cursor:pointer;
+    transition:background .12s ease;
+  }
+  .archive-row:hover{background:var(--concrete-panel);}
+  .archive-row .code{
+    font-family:var(--font-mono);
+    font-size:12px;
+    border:1px solid var(--line-strong);
+    border-radius:50%;
+    width:34px;height:34px;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:600;
+  }
+  .archive-row .ttl{font-family:var(--font-display);font-weight:600;font-size:15.5px;}
+  .archive-row .loc, .archive-row .cat, .archive-row .date{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--grey-mid);
+  }
+  @media (max-width:680px){
+    .archive-row{grid-template-columns:44px 1fr;}
+    .archive-row .loc, .archive-row .cat, .archive-row .date{display:none;}
+  }
+
+  /* ---------- Footer ---------- */
+  footer.site{
+    border-top:1px solid var(--line-strong);
+    margin-top:80px;
+    padding:36px 0 46px;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--grey-mid);
+  }
+  .footer-inner{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 28px;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+
+  /* ---------- Mobile nav ---------- */
+  @media (max-width:760px){
+    nav.site-nav{
+      position:fixed;
+      top:73px; left:0; right:0;
+      background:var(--concrete);
+      border-bottom:1px solid var(--line-strong);
+      flex-direction:column;
+      gap:0;
+      padding:0;
+      max-height:0;
+      overflow:hidden;
+      transition:max-height .2s ease;
+      z-index:49;
+    }
+    nav.site-nav.open{max-height:240px;}
+    nav.site-nav a{padding:16px 28px;border-bottom:1px solid var(--line);width:100%;}
+    .nav-toggle{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      background:none;border:none;cursor:pointer;padding:8px;
+    }
+    .nav-toggle span{width:22px;height:2px;background:var(--ink);display:block;}
+    .about-grid{gap:32px;}
+  }
+
+  .view{display:none;}
+  .view.active{display:block;}
+  section{opacity:0;animation:fadein .35s ease forwards;}
+  @keyframes fadein{to{opacity:1;}}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<header class="site">
+  <div class="header-inner">
+    <div class="brand" onclick="navigate('home')" style="cursor:pointer;">
+      <div class="brand-mark">TK<br></div>
+      <div>
+        <div class="brand-text">Fieldnotes</div>
+        <div class="brand-sub">Tokyo Civil Engineering</div>
+      </div>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="site-nav" id="siteNav">
+      <a onclick="navigate('home')" data-view="home">Home</a>
+      <a onclick="navigate('archive')" data-view="archive">Archive</a>
+      <a onclick="navigate('about')" data-view="about">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <!-- ============ HOME VIEW ============ -->
+    <div class="view" id="view-home">
+      <section class="hero">
+        <div class="hero-eyebrow">Field Record — Active Log</div>
+        <h1 class="hero-title">Notes from Tokyo's built ground.</h1>
+        <p class="hero-lede">Case studies, site surveys, and fieldwork on the infrastructure that keeps Tokyo standing — bridges, tunnels, seismic retrofits, and reclaimed land — documented as I find it.</p>
+        <div class="hero-meta-row">
+          <div><span class="k">Entries logged</span><span class="v" id="statCount">—</span></div>
+          <div><span class="k">Categories</span><span class="v" id="statCats">—</span></div>
+          <div><span class="k">Coverage area</span><span class="v">Tokyo Metropolitan Region</span></div>
+        </div>
+      </section>
+
+      <div class="dim-rule"><div class="cap"></div><div class="line"></div><div class="label">Recent entries</div><div class="line"></div><div class="cap"></div></div>
+
+      <section class="section-head">
+        <h2 class="section-title">Latest case studies</h2>
+        <span class="section-count" id="homeCount"></span>
+      </section>
+      <div class="card-grid" id="homeGrid"></div>
+    </div>
+
+    <!-- ============ ARCHIVE VIEW ============ -->
+    <div class="view" id="view-archive">
+      <section class="post-header">
+        <div class="hero-eyebrow">Full Log</div>
+        <h1 class="hero-title" style="font-size:clamp(32px,5vw,52px);">Archive</h1>
+        <p class="hero-lede">Every case study, filterable by category and site.</p>
+      </section>
+
+      <div class="filter-bar" id="filterBar"></div>
+
+      <div class="archive-list" id="archiveTableHead"></div>
+      <div id="archiveList"></div>
+    </div>
+
+    <!-- ============ POST VIEW ============ -->
+    <div class="view" id="view-post">
+      <section class="post-header">
+        <a class="back-link" onclick="navigate('home')">&larr; Back to entries</a>
+        <div class="post-top">
+          <div>
+            <div class="post-tags" id="postTags"></div>
+            <h1 class="post-title" id="postTitle"></h1>
+            <p class="post-dek" id="postDek"></p>
+          </div>
+          <div class="stamp-lg" id="postStamp">
+            <span class="code"></span>
+            <span class="no"></span>
+          </div>
+        </div>
+        <div class="post-meta-strip" id="postMetaStrip"></div>
+      </section>
+
+      <div class="post-hero-photo">
+        <img id="postHeroImg" src="" alt="">
+      </div>
+      <div class="fig-caption" id="postHeroCaption"></div>
+
+      <div class="post-body" id="postBody"></div>
+    </div>
+
+    <!-- ============ ABOUT VIEW ============ -->
+    <div class="view" id="view-about">
+      <section class="about-hero">
+        <div class="hero-eyebrow">Field Record — 000</div>
+        <h1 class="hero-title" style="font-size:clamp(32px,5vw,52px);">About this log</h1>
+      </section>
+      <div class="about-grid">
+        <div class="about-body">
+          <p>I document civil infrastructure across Tokyo as I encounter it — on site visits, during fieldwork, and in the drawings and standards behind what gets built. This log is a running record of that work: bridges, tunnels, seismic retrofits, transit infrastructure, and the reclaimed land the city stands on.</p>
+          <p>Each entry follows the same discipline as a site record: what the structure is, where it sits, what condition it's in, and what the fieldwork actually showed. Photographs are from site visits unless captioned otherwise. Specifications are drawn from public design documents and site signage, and are noted as such — always check primary sources before citing anything here professionally.</p>
+          <p>Get in touch if you spot an error, want to compare notes on a site, or have access to a location worth surveying.</p>
+          <div class="about-cred">
+            <div><span class="k">Focus</span><span class="v">Bridges · Tunnels · Seismic · Transit · Land</span></div>
+            <div><span class="k">Coverage</span><span class="v">Tokyo Metropolitan Region</span></div>
+            <div><span class="k">Contact</span><span class="v">fieldnotes@example.com</span></div>
+            <div><span class="k">Status</span><span class="v">Actively surveying</span></div>
+          </div>
+        </div>
+        <div class="about-photo">
+          <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1000&auto=format&fit=crop" alt="Tokyo waterfront infrastructure">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="footer-inner">
+    <span>Fieldnotes — Tokyo Civil Engineering Case Studies</span>
+    <span>Site record maintained independently. Not an official standards source.</span>
+  </div>
+</footer>
+
+<script>
+/* ======================================================================
+   DATA — edit this array to add your own case studies.
+   Each post object controls everything on the card, archive row, and
+   full post page. `body` accepts an array of "blocks" — see the
+   sample posts below for every supported block type.
+   ====================================================================== */
+const POSTS = [
+  {
+    id: "rainbow-bridge-cable-inspection",
+    code: "BR",
+    codeNo: "014",
+    category: "Bridges",
+    location: "Minato / Odaiba",
+    date: "2026-06-02",
+    title: "Rainbow Bridge: reading wear into a cable-stayed deck",
+    dek: "A site walk along the double-deck suspension crossing linking Odaiba to the mainland, and what its cable anchorages tell you about 30 years of harbor-side load cycling.",
+    excerpt: "A site walk along the double-deck suspension crossing linking Odaiba to the mainland, and what its cable anchorages reveal about long-term load cycling.",
+    heroImg: "https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?q=80&w=1600&auto=format&fit=crop",
+    heroCaption: "Fig. 1 — South tower, lower deck approach, viewed from the Odaiba promenade.",
+    body: [
+      {type:"p", text:"Rainbow Bridge carries the Shuto Expressway's Daiba Route on its upper deck and a local road plus the Yurikamome automated transit line below — a stacked-load arrangement that makes it a useful case for thinking about how cable-stayed structures age under mixed, asynchronous traffic."},
+      {type:"h2", text:"Site conditions"},
+      {type:"p", text:"Visited on a clear morning at low tide, which matters here: the anchorage inspection walkways sit close enough to the waterline that salt spray exposure varies meaningfully with tide state, and that shows up directly in the corrosion patterns on the lower cable sockets."},
+      {type:"quote", text:"The maintenance record is written into the paint layers before it's written into any report."},
+      {type:"p", text:"Two suspension cable systems support the deck rather than a single cable-stayed fan — a detail easy to miss from the observation deck but obvious once you're standing under the tower saddle."},
+      {type:"note", text:"Access to the tower base walkways requires a permit through the Tokyo Metropolitan Government's bridge maintenance office. Approved a week in advance for this visit."},
+      {type:"h2", text:"What the inspection showed"},
+      {type:"p", text:"Cable sheathing near the lower anchorages showed surface chalking consistent with UV and salt exposure rather than structural concern — the kind of wear that gets flagged for repainting cycles, not remediation. The tower saddle housings, resurfaced in a prior maintenance cycle, showed no visible cracking at the weld toes."},
+      {type:"table", caption:"Structure specifications (public design data)", rows:[
+        ["Type","Self-anchored suspension, double deck"],
+        ["Main span","570 m"],
+        ["Total length","798 m"],
+        ["Clearance above water","52 m (navigation clearance)"],
+        ["Opened","1993"],
+        ["Deck arrangement","Upper: Shuto Expressway · Lower: road + Yurikamome"]
+      ]},
+      {type:"gallery", items:[
+        {img:"https://images.unsplash.com/photo-1533050487297-09b450131914?q=80&w=1200&auto=format&fit=crop", caption:"Fig. 2 — Tower saddle housing, north tower."},
+        {img:"https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?q=80&w=1200&auto=format&fit=crop", caption:"Fig. 3 — Lower deck cable anchorage walkway."},
+        {img:"https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?q=80&w=1200&auto=format&fit=crop", caption:"Fig. 4 — View along the lower deck toward Odaiba."}
+      ]},
+      {type:"p", text:"Overall: a structure aging on schedule. The more interesting finding wasn't the bridge itself but the maintenance cadence — the Tokyo Metropolitan Government runs a repainting cycle tuned specifically to the tidal spray zone, which is a detail worth its own entry."}
+    ]
+  },
+  {
+    id: "aqualine-tunnel-ventilation",
+    code: "TN",
+    codeNo: "009",
+    category: "Tunnels",
+    location: "Tokyo Bay / Kawasaki–Kisarazu",
+    date: "2026-04-18",
+    title: "Tokyo Bay Aqua-Line: ventilating a 9.6 km undersea tunnel",
+    dek: "Inside Umihotaru, the artificial ventilation island midway across Tokyo Bay, and the shield-tunneling method that made the crossing possible.",
+    excerpt: "Inside Umihotaru, the artificial ventilation island midway across Tokyo Bay, and the shield-tunneling method that made the crossing possible.",
+    heroImg: "https://images.unsplash.com/photo-1495954380655-6f5ba8a67dcc?q=80&w=1600&auto=format&fit=crop",
+    heroCaption: "Fig. 1 — Umihotaru service island, midpoint of the bay crossing.",
+    body: [
+      {type:"p", text:"The Aqua-Line's tunnel section runs 9.6 km beneath Tokyo Bay, connecting to a bridge section on the Kisarazu side. Umihotaru — literally 'sea firefly' — is the artificial island built at the transition point, and it doubles as the tunnel's primary ventilation and rest stop."},
+      {type:"h2", text:"Why shield tunneling here"},
+      {type:"p", text:"The bay floor geology — soft alluvial clay over a considerable depth — ruled out cut-and-cover for most of the crossing. The tunnel was bored using slurry shield TBMs, among the largest in diameter used at the time of construction, to manage face stability in that soft ground under high water pressure."},
+      {type:"note", text:"Two TBMs bored from opposite ends and met near the deepest point of the crossing — a alignment tolerance worth reading about separately if you're into survey control on long bores."},
+      {type:"h2", text:"Ventilation at Umihotaru"},
+      {type:"p", text:"Undersea road tunnels need forced ventilation to clear vehicle exhaust, and a 9.6 km bore is too long to vent end-to-end alone. Umihotaru houses intermediate ventilation shafts that pull air up through the island rather than relying purely on longitudinal jet fans, which is the detail that makes the island a structural necessity and not just a rest stop with good views."},
+      {type:"table", caption:"Structure specifications (public design data)", rows:[
+        ["Total crossing length","15.1 km (9.6 km tunnel + bridge section)"],
+        ["Tunnel type","Shield-bored, twin bore"],
+        ["Max depth below sea level","~60 m"],
+        ["Opened","1997"],
+        ["Ventilation island","Umihotaru (artificial, built for the project)"]
+      ]},
+      {type:"quote", text:"An undersea tunnel is really a ventilation problem wearing a structural engineering costume."},
+      {type:"gallery", items:[
+        {img:"https://images.unsplash.com/photo-1502920917128-1aa500764cbd?q=80&w=1200&auto=format&fit=crop", caption:"Fig. 2 — Ventilation shaft housing, upper deck of Umihotaru."},
+        {img:"https://images.unsplash.com/photo-1601233749202-95d04d5b3c00?q=80&w=1200&auto=format&fit=crop", caption:"Fig. 3 — Tunnel portal, Kawasaki side."}
+      ]},
+      {type:"p", text:"Worth a return visit specifically to walk the maintenance-access documentation at the Kawasaki portal, which wasn't open on this trip."}
+    ]
+  },
+  {
+    id: "shuto-expressway-seismic-retrofit",
+    code: "SZ",
+    codeNo: "021",
+    category: "Seismic",
+    location: "Chuo / Nihonbashi",
+    date: "2026-02-27",
+    title: "Retrofitting the Shuto Expressway's elevated piers",
+    dek: "Steel jacketing and base isolation on the aging elevated sections above Nihonbashi — and why post-1995 seismic codes changed how these piers get reinforced.",
+    excerpt: "Steel jacketing and base isolation on the aging elevated sections above Nihonbashi, and why post-1995 codes changed how these piers get reinforced.",
+    heroImg: "https://images.unsplash.com/photo-1584824486539-53bb4646bfdf?q=80&w=1600&auto=format&fit=crop",
+    heroCaption: "Fig. 1 — Elevated expressway piers above the Nihonbashi River.",
+    body: [
+      {type:"p", text:"The 1995 Great Hanshin earthquake was the turning point for elevated expressway seismic design in Japan — pier failures on the Hanshin Expressway drove a nationwide reassessment of older reinforced concrete piers built to pre-1980 codes, including large stretches of the Shuto Expressway through central Tokyo."},
+      {type:"h2", text:"Steel jacketing, in the field"},
+      {type:"p", text:"The retrofit method most visible from street level is steel jacketing: wrapping the base of circular or rectangular concrete piers in a steel casing, then grouting the gap. It increases confinement and shear capacity without significantly enlarging the pier footprint — important where piers sit directly above a river or a road."},
+      {type:"note", text:"The jacketed sections are identifiable by a visible seam line and a slightly different surface texture near the pier base — worth looking for on any elevated pier in central Tokyo built before the mid-1990s."},
+      {type:"p", text:"Some sections instead use base isolation bearings at the pier-to-deck connection, which is a different strategy: rather than stiffening the pier, it decouples the deck's inertial response from the ground motion. Both approaches were visible within a few hundred meters of each other on this stretch, suggesting phased retrofit contracts rather than a single uniform design."},
+      {type:"pullquote_marker"},
+      {type:"quote", text:"You can read a structure's retrofit history in its seams if you know where to look."},
+      {type:"table", caption:"Retrofit methods observed on site", rows:[
+        ["Steel jacketing","Circular piers, river-adjacent sections"],
+        ["Base isolation bearings","Deck-to-pier interface, select spans"],
+        ["Reference code driver","Post-1995 Hanshin earthquake seismic design revisions"],
+        ["Visible retrofit era","Piers show 1990s–2000s jacketing style"]
+      ]},
+      {type:"gallery", items:[
+        {img:"https://images.unsplash.com/photo-1568037320669-f0f6c8f0ffc9?q=80&w=1200&auto=format&fit=crop", caption:"Fig. 2 — Steel jacket seam line, pier base."},
+        {img:"https://images.unsplash.com/photo-1519452575417-564c1401ecc0?q=80&w=1200&auto=format&fit=crop", caption:"Fig. 3 — Elevated deck above Nihonbashi River, wider context."}
+      ]},
+      {type:"p", text:"Next step for this thread: comparing jacketing details here against the Metropolitan Expressway Company's published retrofit standards to see how closely field execution matches the spec drawings."}
+    ]
+  },
+  {
+    id: "shibuya-station-underground-redevelopment",
+    code: "TR",
+    codeNo: "017",
+    category: "Transit",
+    location: "Shibuya",
+    date: "2025-12-11",
+    title: "Shibuya Station: engineering a station with no fixed ground",
+    dek: "Notes on the multi-decade Shibuya Station redevelopment, where relocating a subway line meant temporarily suspending live track beneath an active terminal.",
+    excerpt: "Notes on the Shibuya Station redevelopment, where relocating a subway line meant temporarily suspending live track beneath an active terminal.",
+    heroImg: "https://images.unsplash.com/photo-1554797589-7241bb691973?q=80&w=1600&auto=format&fit=crop",
+    heroCaption: "Fig. 1 — Shibuya Station concourse, redevelopment-era structure visible above.",
+    body: [
+      {type:"p", text:"Shibuya sits in a valley, which is the single fact that explains most of the difficulty in redeveloping its station. Multiple rail operators converge here at different elevations, on a site with no flat ground to stage construction — everything happens in layers, above and below an operating station."},
+      {type:"h2", text:"Moving a live subway line"},
+      {type:"p", text:"The most-cited engineering feat of the project was relocating the Tokyu Toyoko Line platform underground to connect directly with the Fukutoshin Line, without a full service suspension. That required building the new underground structure alongside the operating line, then cutting over during short overnight and holiday closures rather than one long shutdown."},
+      {type:"note", text:"Night-shift access to the concourse level construction zone is tightly scheduled around the last and first trains — a four-to-five hour working window is typical, per signage observed near the site office."},
+      {type:"p", text:"Above ground, the Shibuya Scramble Square and Stream towers were built concurrently, meaning the station redevelopment and two major high-rises shared staging space and construction sequencing over the same multi-year period."},
+      {type:"table", caption:"Project scope (public project data)", rows:[
+        ["Rail operators on site","JR East, Tokyu, Tokyo Metro, Keio"],
+        ["Key relocation","Tokyu Toyoko Line platform moved underground"],
+        ["Construction span","~2000s–2020s, phased"],
+        ["Constraint","Continuous station operation throughout"]
+      ]},
+      {type:"quote", text:"Nothing here gets to close. The site just has to keep working while it's rebuilt underneath itself."},
+      {type:"gallery", items:[
+        {img:"https://images.unsplash.com/photo-1542931287-023b922fa89b?q=80&w=1200&auto=format&fit=crop", caption:"Fig. 2 — Layered concourse structure, Shibuya Station."},
+        {img:"https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=1200&auto=format&fit=crop", caption:"Fig. 3 — Surrounding redevelopment towers under construction."}
+      ]},
+      {type:"p", text:"This is a site worth repeat visits — the phasing changes noticeably year over year, and each visit tends to reveal a different part of the sequencing logic."}
+    ]
+  },
+  {
+    id: "kanda-underground-regulating-reservoir",
+    code: "FC",
+    codeNo: "005",
+    category: "Flood Control",
+    location: "Nerima / Kanda River basin",
+    date: "2025-10-03",
+    title: "The underground reservoir beneath the Kanda River basin",
+    dek: "A look at Tokyo's Loop Road 7 underground regulating reservoir — a 4.5 km stormwater tunnel built to stop a densely urbanized river basin from flooding.",
+    excerpt: "A look at Tokyo's Loop Road 7 underground regulating reservoir — a 4.5 km stormwater tunnel built to stop a densely urbanized basin from flooding.",
+    heroImg: "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?q=80&w=1600&auto=format&fit=crop",
+    heroCaption: "Fig. 1 — Shaft access structure at the reservoir's surface facility.",
+    body: [
+      {type:"p", text:"The Kanda River basin floods easily: it's almost entirely paved over, with little permeable ground left to absorb heavy rain. Tokyo's response was to build storage rather than fight the water at the surface — a large-diameter tunnel running beneath Loop Road 7, sized to hold stormwater until the river can safely take it."},
+      {type:"h2", text:"How the storage tunnel works"},
+      {type:"p", text:"During heavy rainfall, excess flow from the Kanda, Zenpukuji, and Myoshoji rivers is diverted into the underground tunnel through inlet shafts, rather than being allowed to overtop the rivers' banks in the surrounding neighborhoods. Once the storm passes and river levels drop, the stored water is pumped back out and released in a controlled way."},
+      {type:"note", text:"Surface access points are unremarkable — a fenced concrete shaft housing and a small operations building are often the only visible sign of a tunnel running 40+ meters below."},
+      {type:"table", caption:"Structure specifications (public project data)", rows:[
+        ["Tunnel length","~4.5 km"],
+        ["Internal diameter","~12.5 m"],
+        ["Depth","~40 m below ground"],
+        ["Rivers served","Kanda, Zenpukuji, Myoshoji"],
+        ["Storage capacity","Approx. 540,000 m³"]
+      ]},
+      {type:"quote", text:"The most important infrastructure in this basin is the part you're standing on top of without knowing it."},
+      {type:"gallery", items:[
+        {img:"https://images.unsplash.com/photo-1591123120675-6f7f1aae0e5b?q=80&w=1200&auto=format&fit=crop", caption:"Fig. 2 — Surface shaft housing, operations building."},
+        {img:"https://images.unsplash.com/photo-1500817487388-039e623edc21?q=80&w=1200&auto=format&fit=crop", caption:"Fig. 3 — Kanda River channel above the tunnel alignment."}
+      ]},
+      {type:"p", text:"Worth comparing against the much larger Metropolitan Area Outer Underground Discharge Channel in Saitama on a future visit — same storage principle, different scale entirely."}
+    ]
+  },
+  {
+    id: "odaiba-reclaimed-land-liquefaction",
+    code: "LR",
+    codeNo: "003",
+    category: "Land Reclamation",
+    location: "Odaiba / Tokyo Bay landfill",
+    date: "2025-08-14",
+    title: "Reading liquefaction risk into Odaiba's reclaimed ground",
+    dek: "Odaiba is built entirely on reclaimed land. Fieldwork on the soil improvement methods used to keep landfill ground stable during an earthquake.",
+    excerpt: "Odaiba is built entirely on reclaimed land. Fieldwork on the soil improvement methods used to keep landfill ground stable during an earthquake.",
+    heroImg: "https://images.unsplash.com/photo-1519999482648-25049ddd37b1?q=80&w=1600&auto=format&fit=crop",
+    heroCaption: "Fig. 1 — Waterfront promenade, Odaiba reclaimed district.",
+    body: [
+      {type:"p", text:"Odaiba's ground is entirely artificial — built up from dredged and imported fill starting in the late 19th century, expanded heavily through the late 20th. Reclaimed land like this behaves very differently from natural ground during an earthquake, and liquefaction is the central risk: loosely deposited, saturated fill can temporarily behave like a liquid under strong shaking."},
+      {type:"h2", text:"Ground improvement in practice"},
+      {type:"p", text:"Several soil improvement methods are used across Tokyo Bay's reclaimed districts to reduce liquefaction potential, most commonly densification methods like sand compaction piles, which increase the fill's relative density before construction ever starts. Where buildings sit on especially soft fill, deep foundations are driven through the reclaimed layer into more competent ground beneath."},
+      {type:"note", text:"The clearest surface evidence of a well-improved fill area is the absence of evidence — no visible settlement cracking, no differential heave at pavement joints. It's a discipline you read by what's missing, not what's there."},
+      {type:"p", text:"The 2011 Tohoku earthquake, despite its epicenter far offshore, caused visible liquefaction in some reclaimed areas around Tokyo Bay — a useful real-world check on which improvement methods held up and which zones were left under-treated."},
+      {type:"table", caption:"Ground conditions (public geotechnical data)", rows:[
+        ["Ground type","Reclaimed fill (dredged sand/soil)"],
+        ["Fill period","Late 19th c. – late 20th c., phased"],
+        ["Primary risk","Liquefaction under strong shaking"],
+        ["Common mitigation","Sand compaction piles, deep foundations"],
+        ["2011 Tohoku observation","Isolated liquefaction in under-treated reclaimed zones"]
+      ]},
+      {type:"quote", text:"Reclaimed ground doesn't lie about its history — it just makes you dig for the evidence instead of reading it off the surface."},
+      {type:"gallery", items:[
+        {img:"https://images.unsplash.com/photo-1554797589-7241bb691973?q=80&w=1200&auto=format&fit=crop", caption:"Fig. 2 — Waterfront pavement, no visible settlement cracking."},
+        {img:"https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1200&auto=format&fit=crop", caption:"Fig. 3 — Fill embankment along the bay edge."}
+      ]},
+      {type:"p", text:"This entry is a starting point — a proper liquefaction risk read needs borehole data I don't have yet. Filed as fieldwork, not analysis."}
+    ]
+  }
+];
+
+/* ====================================================================== */
+
+const CATEGORY_ORDER = ["Bridges","Seismic","Tunnels","Transit","Flood Control","Land Reclamation"];
+let activeFilter = "All";
+
+function fmtDate(iso){
+  const d = new Date(iso + "T00:00:00");
+  return d.toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'});
+}
+
+function cardHTML(post){
+  return `
+    <article class="card" onclick="openPost('${post.id}')">
+      <div class="card-photo">
+        <img src="${post.heroImg}" alt="${post.title}" loading="lazy">
+        <div class="stamp"><span class="code">${post.code}</span><span class="no">№${post.codeNo}</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tags"><span class="cat">${post.category}</span><span class="loc">${post.location}</span></div>
+        <h3 class="card-title">${post.title}</h3>
+        <p class="card-excerpt">${post.excerpt}</p>
+        <div class="card-foot"><span>${fmtDate(post.date)}</span><span>Read entry &rarr;</span></div>
+      </div>
+    </article>`;
+}
+
+function renderHome(){
+  document.getElementById('statCount').textContent = POSTS.length + " entries";
+  const cats = new Set(POSTS.map(p=>p.category));
+  document.getElementById('statCats').textContent = cats.size + " categories";
+  const sorted = [...POSTS].sort((a,b)=> new Date(b.date) - new Date(a.date));
+  document.getElementById('homeCount').textContent = sorted.length + " total";
+  document.getElementById('homeGrid').innerHTML = sorted.map(cardHTML).join('');
+}
+
+function renderFilterBar(){
+  const cats = ["All", ...CATEGORY_ORDER.filter(c => POSTS.some(p=>p.category===c))];
+  document.getElementById('filterBar').innerHTML = cats.map(c =>
+    `<button class="chip ${c===activeFilter?'active':''}" onclick="setFilter('${c}')">${c}</button>`
+  ).join('');
+}
+
+function setFilter(cat){
+  activeFilter = cat;
+  renderFilterBar();
+  renderArchive();
+}
+
+function renderArchive(){
+  renderFilterBar();
+  const filtered = (activeFilter === "All" ? POSTS : POSTS.filter(p=>p.category===activeFilter));
+  const sorted = [...filtered].sort((a,b)=> new Date(b.date) - new Date(a.date));
+  document.getElementById('archiveTableHead').innerHTML = `
+    <div class="archive-row" style="cursor:default;">
+      <span></span>
+      <span class="ttl" style="font-family:var(--font-mono);font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--grey-mid);font-weight:400;">Entry</span>
+      <span class="loc" style="text-transform:uppercase;letter-spacing:0.06em;">Site</span>
+      <span class="cat" style="text-transform:uppercase;letter-spacing:0.06em;">Category</span>
+      <span class="date" style="text-transform:uppercase;letter-spacing:0.06em;">Date</span>
+    </div>`;
+  document.getElementById('archiveList').innerHTML = sorted.map(p => `
+    <div class="archive-row" onclick="openPost('${p.id}')">
+      <span class="code">${p.code}</span>
+      <span class="ttl">${p.title}</span>
+      <span class="loc">${p.location}</span>
+      <span class="cat">${p.category}</span>
+      <span class="date">${fmtDate(p.date)}</span>
+    </div>`).join('');
+}
+
+function blockHTML(block){
+  switch(block.type){
+    case 'p': return `<p>${block.text}</p>`;
+    case 'h2': return `<h2>${block.text}</h2>`;
+    case 'quote': return `<div class="pullquote">${block.text}</div>`;
+    case 'note': return `<div class="field-note">${block.text}</div>`;
+    case 'table': return `
+      <table class="spec-table">
+        <caption>${block.caption}</caption>
+        ${block.rows.map(r => `<tr><th>${r[0]}</th><td>${r[1]}</td></tr>`).join('')}
+      </table>`;
+    case 'gallery': return `
+      <div class="gallery">
+        ${block.items.map(it => `<figure><img src="${it.img}" alt="${it.caption}" loading="lazy"><figcaption>${it.caption}</figcaption></figure>`).join('')}
+      </div>`;
+    case 'pullquote_marker': return '';
+    default: return '';
+  }
+}
+
+function openPost(id){
+  const post = POSTS.find(p=>p.id===id);
+  if(!post) return;
+  document.getElementById('postTags').innerHTML = `<span>${post.category}</span><span>&middot;</span><span>${post.location}</span>`;
+  document.getElementById('postTitle').textContent = post.title;
+  document.getElementById('postDek').textContent = post.dek;
+  document.getElementById('postStamp').querySelector('.code').textContent = post.code;
+  document.getElementById('postStamp').querySelector('.no').textContent = "№" + post.codeNo;
+  document.getElementById('postMetaStrip').innerHTML = `
+    <div><span class="k">Site</span><span class="v">${post.location}</span></div>
+    <div><span class="k">Category</span><span class="v">${post.category}</span></div>
+    <div><span class="k">Logged</span><span class="v">${fmtDate(post.date)}</span></div>
+    <div><span class="k">Record</span><span class="v">${post.code}-${post.codeNo}</span></div>
+  `;
+  document.getElementById('postHeroImg').src = post.heroImg;
+  document.getElementById('postHeroImg').alt = post.title;
+  document.getElementById('postHeroCaption').textContent = post.heroCaption;
+  document.getElementById('postBody').innerHTML = post.body.map(blockHTML).join('');
+  navigate('post', true);
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+function navigate(view, skipHistory){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-' + view).classList.add('active');
+  document.querySelectorAll('.site-nav a').forEach(a=>a.classList.toggle('active', a.dataset.view===view));
+  document.getElementById('siteNav').classList.remove('open');
+  if(view==='archive') renderArchive();
+  if(!skipHistory) window.scrollTo({top:0, behavior:'instant'});
+}
+
+document.getElementById('navToggle').addEventListener('click', ()=>{
+  document.getElementById('siteNav').classList.toggle('open');
+});
+
+renderHome();
+renderFilterBar();
+navigate('home', true);
+</script>
+</body>
+</html>
